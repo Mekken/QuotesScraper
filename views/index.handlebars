@@ -1,0 +1,23 @@
+<div class="header text-center">
+  <div class="jumbotron">
+  <h1>Find My Inspiration</h1>
+  </div>
+</div>
+
+<div class="heading">
+
+</div>
+
+<div class="quotes">
+  <div class="row">
+    {{#each quotes}}
+      <div class="col-m-12 well">
+        <div id="quote-author">{{this.author}}</div>
+        <div id="quote-body">{{this.body}}</div>
+        <div id="quote-body">{{this.tags}}</div>
+      </div>
+        {{else}}
+          <div class="text-center" id="empty-quotes">It would seem there are not quotes, consider clicking the Scrape Button to Display Quotes</div>
+      {{/each}}
+  </div>
+</div>
