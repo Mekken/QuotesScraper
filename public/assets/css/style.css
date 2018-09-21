@@ -9,6 +9,12 @@
   font-family: 'Martel', serif;
 }
 
+input, textarea {
+  border: solid 1px grey;
+}
+
+
+
 @media only screen and (max-width: 500px) {
   .comment-text {
     width: 200px;
