@@ -1,30 +1,12 @@
 $(document).ready(function() {
-  $("#getQuotes").on("click", function() {
-
-    $.ajax("/api/scrape", {
-      type: "GET"
-    })
-    .then(function() {
-      console.log("Retrieving Inspiration Quotes Successful");
-      location.reload();
-    })
-  });
-
-  $("#delQuotes").on("click", function() {
-
-    $.ajax("/api/quotes", {
-      type: "DELETE"
-    })
-    .then(function() {
-      console.log("Retrieving Inspiration Quotes Successful");
-      location.reload();
-    })
+  $("#home").on("click", function() {
+    window.location.href = "/";
   });
 
   $(".tag-btn").on('click', function() {
     let tagName = $(this).data("name");
-
-    window.location.href = "/quotes/" + tagName;
+    
+    window.location.href = "/search/" + tagName;
   })
 
   $(".comment-section").on("submit", function(ev) {

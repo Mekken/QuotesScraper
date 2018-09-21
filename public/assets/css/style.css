@@ -1,0 +1,16 @@
+#banner {
+  background-image: url("../imgs/inspiration.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
+#banner-text {
+  font-family: 'Martel', serif;
+}
+
+@media only screen and (max-width: 500px) {
+  .comment-text {
+    width: 200px;
+  }
+}

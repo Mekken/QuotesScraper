@@ -40,9 +40,21 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 // -- Pages -- //
 app.get("/",function(req, res) {
   db.Quote.find({})
+  .populate("comments")
   .then(function(results) {
-    results.test = "hello";
     res.render("index", { quotes: results });
+  })
+  .catch(function(err) {
+    res.status(500);
+    res.json(err).end();
+  });
+});
+
+app.get("/quotes/:tag",function(req, res) {
+  db.Quote.find({ tags: req.params.tag })
+  .populate("comments")
+  .then(function(results) {
+    res.render("search", { quotes: results });
   })
   .catch(function(err) {
     res.status(500);
@@ -53,13 +65,13 @@ app.get("/",function(req, res) {
 // -- Read -- //
 app.get("/api/quotes", function(req, res) {
   db.Quote.find({})
-  .then(function(quotes) {
+    .then(function(quotes) {
       res.json(quotes).end();
-  })
-  .catch(function() {
-    res.status(500);
-    res.json(err).end();
-  })
+    })
+    .catch(function() {
+      res.status(500);
+      res.json(err).end();
+    })
 });
 
 app.get("/api/popquotes", function(req, res) {
@@ -87,13 +99,13 @@ app.get("/api/quotes/:id", function(req, res) {
 
 app.get("/api/quotes/:tag", function(req, res) {
   db.Quote.find({ tags: req.params.tag })
-  .then(function(quotes) {
-      res.json(quotes).end();
-  })
-  .catch(function() {
-    res.status(500);
-    res.json(err).end();
-  })
+    .then(function(quotes) {
+        res.json(quotes).end();
+    })
+    .catch(function() {
+      res.status(500);
+      res.json(err).end();
+    })
 });
 
 app.get("/api/comments", function(req, res) {
@@ -130,13 +142,13 @@ app.get("/api/scrape", function(req, res) {
     });
 
     db.Quote.create(results)
-    .then(function() {
-      res.json("quotes have been scraped").end();
-    })
-    .catch(function() {
-      res.status(500);
-      res.json(err).end();
-    })
+      .then(function() {
+        res.json("quotes have been scraped").end();
+      })
+      .catch(function() {
+        res.status(500);
+        res.json(err).end();
+      })
   });
 });
 
@@ -162,13 +174,13 @@ app.post("/api/comments/:quoteid", function(req, res) {
 // --- Delete --- //
 app.delete("/api/quotes", function(req, res) {
   db.Quote.remove({})
-  .then(function() {
+    .then(function() {
       res.json("removed all quotes").end();
-  })
-  .catch(function() {
-    res.status(500);
-    res.json(err).end();
-  });
+    })
+    .catch(function() {
+      res.status(500);
+      res.json(err).end();
+    });
 });
 
 app.delete("/api/comments", function(req, res) {

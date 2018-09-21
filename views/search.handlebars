@@ -1,16 +1,13 @@
 <div class="header text-center">
   <div id="banner" class="jumbotron">
-  <h1 id="banner-text">Find My Inspiration</h1>
+  <h1 id="banner-text">Inspiration By Tag</h1>
   </div>
 </div>
 
 <div class="heading mb-5">
   <div class="row justify-content-center">
     <div class="col-m mx-2">
-      <button id="getQuotes" type="button" class="btn btn-primary">Retrieve Quotes</button>
-    </div>
-    <div class="col-m mx-2">
-      <button id="delQuotes" type="button" class="btn btn-primary">Remove All Quotes</button>
+      <button id="home" type="button" class="btn btn-primary">Return To Home</button>
     </div>
   </div>
 </div>
@@ -54,7 +51,7 @@
     </div>
   </div>
   {{else}}
-    <div class="text-center">Looks likes there are no Quotes, consider clicking the "Retrieve Quotes" Button above</div>
+    <div class="text-center">OOPS! Looks like there aren't any quotes by this Tag, Return Home and Try Again</div>
 {{/each}}
 
-<script src="/assets/js/index.js"></script>
+<script src="/assets/js/search.js"></script>
