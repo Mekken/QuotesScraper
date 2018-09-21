@@ -16,12 +16,13 @@ $(document).ready(function() {
       type: "DELETE"
     })
     .then(function() {
-      console.log("Retrieving Inspiration Quotes Successful");
+      console.log("Deleting Inspiration Quotes Successful");
       location.reload();
     })
   });
 
-  $(".tag-btn").on('click', function() {
+  $(".tag-btn").on("click", function(ev) {
+    ev.stopPropagation();
     let tagName = $(this).data("name");
 
     window.location.href = "/quotes/" + tagName;
@@ -47,7 +48,7 @@ $(document).ready(function() {
       console.log("successfully created new comment");
       location.reload();
     })
-    .catch(function() {
+    .fail(function() {
       console.log("unable to send data");
     });
   });

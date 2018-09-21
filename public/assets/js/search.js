@@ -3,13 +3,14 @@ $(document).ready(function() {
     window.location.href = "/";
   });
 
-  $(".tag-btn").on('click', function() {
+  $(".tag-btn").off().on('click', function(ev) {
+    ev.stopPropagation();
     let tagName = $(this).data("name");
     
-    window.location.href = "/search/" + tagName;
+    window.location.href = "/quotes/" + tagName;
   })
 
-  $(".comment-section").on("submit", function(ev) {
+  $(".comment-section").off().on("submit", function(ev) {
     ev.preventDefault();
 
     let id = $(this).closest(".quote-section").data("id");
@@ -29,7 +30,7 @@ $(document).ready(function() {
       console.log("successfully created new comment");
       location.reload();
     })
-    .catch(function() {
+    .fail(function() {
       console.log("unable to send data");
     });
   });

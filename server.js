@@ -205,6 +205,18 @@ app.delete("/api/comments/:id", function(req, res) {
     });
 });
 
+// --- Default --- //
+// app.get("*", function(req, res) {
+//   db.Quote.find({})
+//   .populate("comments")
+//   .then(function(results) {
+//     res.render("index", { quotes: results });
+//   })
+//   .catch(function(err) {
+//     res.status(500);
+//     res.json(err).end();
+//   });
+// });
 // ================= Routes END ================= //
 
 
