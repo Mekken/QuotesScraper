@@ -8,7 +8,7 @@ const cheerio = require("cheerio");
 // Require all models
 var db = require("./models");
 var PORT = process.env.PORT || 3000;
-var MONGO_URI = process.env.MONGODB_URI || "mongodb://localhost/quotefinderdb";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/quotefinderdb";
 // Initialize Express
 var app = express();
 
@@ -27,7 +27,8 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 // Connect to the Mongo DB
-mongoose.connect(MONGO_URI, { useNewUrlParser: true});
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true});
 
 // ================= Routes ================= //
 
