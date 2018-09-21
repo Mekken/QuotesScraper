@@ -26,10 +26,11 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/quotefinderdb");
+mongoose.connect("mongodb://localhost/quotefinderdb", { useNewUrlParser: true});
 
 // ================= Routes ================= //
 
+// -- Pages -- //
 app.get("/",function(req, res) {
   //TODO: Render HomePage
   db.Quote.find({})
@@ -39,6 +40,7 @@ app.get("/",function(req, res) {
   });
 });
 
+// -- Read -- //
 app.get("/api/quotes", function(req, res) {
   db.Quote.find({})
   .then(function(quotes) {
@@ -90,6 +92,12 @@ app.get("/api/scrape", function(req, res) {
   });
 });
 
+// --- Create --- //
+app.post("/api/comments/:articleId", function(res,req) {
+  //TODO: Add Comment to Article Id
+});
+
+// --- Delete --- //
 app.delete("/api/removeall", function(req, res) {
   //TODO: Remove all Articles
   db.Quote.remove({})
@@ -99,6 +107,10 @@ app.delete("/api/removeall", function(req, res) {
   .catch(function() {
       res.status(500).end();
   });
+});
+
+app.delete("/api/comments/:id", function(req, res) {
+  //TODO: Delete a Comment
 });
 
 // ================= Routes END ================= //
