@@ -15,8 +15,13 @@ var app = express();
 // Configure middleware
 // Use morgan logger for logging requests
 app.use(logger("dev"));
-// Use body-parser for handling form submissions
+
+// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// parse application/json
+app.use(bodyParser.json())
+
 // Use express.static to serve the public folder as a static directory
 app.use(express.static("public"));
 
@@ -28,17 +33,20 @@ app.set("view engine", "handlebars");
 
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true});
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 // ================= Routes ================= //
 
 // -- Pages -- //
 app.get("/",function(req, res) {
-  //TODO: Render HomePage
   db.Quote.find({})
   .then(function(results) {
     results.test = "hello";
     res.render("index", { quotes: results });
+  })
+  .catch(function(err) {
+    res.status(500);
+    res.json(err).end();
   });
 });
 
@@ -49,8 +57,32 @@ app.get("/api/quotes", function(req, res) {
       res.json(quotes).end();
   })
   .catch(function() {
-      res.status(500).end();
+    res.status(500);
+    res.json(err).end();
   })
+});
+
+app.get("/api/popquotes", function(req, res) {
+  db.Quote.find({})
+    .populate("comments")
+    .then(function(quotes) {
+      res.json(quotes);
+    })
+    .catch(function(err) {
+      res.status(500);
+      res.json(err).end();
+    });
+});
+
+app.get("/api/quotes/:id", function(req, res) {
+  db.Quote.find({ _id: req.params.id })
+    .then(function(quote) {
+      res.json(quote).end();
+    })
+    .catch(function(err) {
+      res.status(500);
+      res.json(err).end();
+    });
 });
 
 app.get("/api/quotes/:tag", function(req, res) {
@@ -59,8 +91,21 @@ app.get("/api/quotes/:tag", function(req, res) {
       res.json(quotes).end();
   })
   .catch(function() {
-      res.status(500).end();
+    res.status(500);
+    res.json(err).end();
   })
+});
+
+app.get("/api/comments", function(req, res) {
+  db.Comment.find({})
+    .then(function(comments) {
+      res.json(comments)
+      res.status(200).end();
+    })
+    .catch(function(err) {
+      res.status(500);
+      res.json(err).end();
+    });
 });
 
 app.get("/api/scrape", function(req, res) {
@@ -89,30 +134,63 @@ app.get("/api/scrape", function(req, res) {
       res.json("quotes have been scraped").end();
     })
     .catch(function() {
-      res.json(500).end();
+      res.status(500);
+      res.json(err).end();
     })
   });
 });
 
 // --- Create --- //
-app.post("/api/comments/:articleId", function(res,req) {
-  //TODO: Add Comment to Article Id
+app.post("/api/comments/:quoteid", function(req, res) {
+  db.Comment.create(req.body)
+    .then(function(dbComment) {
+      db.Quote.findOneAndUpdate({ _id: req.params.quoteid }, { $push: { comments: dbComment._id } }, { new: true })
+        .then(function(dbQuote) {
+          res.json(dbQuote);
+        })
+        .catch(function(err) {
+          res.status(500);
+          res.json(err).end();
+        });
+    })
+    .catch(function(err) {
+      res.status(500);
+      res.json(err).end();
+    });
 });
 
 // --- Delete --- //
-app.delete("/api/removeall", function(req, res) {
-  //TODO: Remove all Articles
+app.delete("/api/quotes", function(req, res) {
   db.Quote.remove({})
   .then(function() {
       res.json("removed all quotes").end();
   })
   .catch(function() {
-      res.status(500).end();
+    res.status(500);
+    res.json(err).end();
   });
 });
 
+app.delete("/api/comments", function(req, res) {
+  db.Comment.remove({})
+    .then(function() {
+      res.json("removed all comments").end();
+    })
+    .catch(function(err) {
+      res.status(500);
+      res.json(err).end();
+    });
+});
+
 app.delete("/api/comments/:id", function(req, res) {
-  //TODO: Delete a Comment
+  db.Comment.remove({ _id: req.params.id })
+    .then(function() {
+      res.json("comment removed").end();
+    })
+    .catch(function(err) {
+      res.status(500);
+      res.json(err).end();
+    });
 });
 
 // ================= Routes END ================= //

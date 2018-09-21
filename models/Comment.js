@@ -3,12 +3,13 @@ const mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
 var CommentSchema = new Schema({
-	title: {
+	author: {
 		type: String,
-		required: [true, 'Comment needs a Title']
+		required: [true, 'Comment needs an author']
 	},
 	body: {
 		type: String,
+		default: [],
 		required: [true, 'Comment needs a Body']
 	}
 });

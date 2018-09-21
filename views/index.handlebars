@@ -15,6 +15,9 @@
         <div id="quote-author">{{this.author}}</div>
         <div id="quote-body">{{this.body}}</div>
         <div id="quote-body">{{this.tags}}</div>
+        {{#each quotes.comment }}
+          <div class="comment">{{this.author}} said: <p>{{this.body}}</p></div>
+        {{/each}}
       </div>
         {{else}}
           <div class="text-center" id="empty-quotes">It would seem there are not quotes, consider clicking the Scrape Button to Display Quotes</div>

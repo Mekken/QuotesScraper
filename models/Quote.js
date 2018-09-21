@@ -14,7 +14,11 @@ var QuoteSchema = new Schema({
 	tags: {
 		type: Array,
 		default: []
-	}
+	},
+	comments: [ {
+		type: Schema.Types.ObjectId,
+		ref: "Comment"
+	} ]
 });
 
 var Quote = mongoose.model("Quote", QuoteSchema);
